@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adoración Nocturna | Parroquia SMSTA</title>
+    <title>Turnos Adoración | PSMSTA</title>
     
     <!-- Favicon SVG con la Cruz Dorada -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23BC9748' stroke-width='2' stroke-linecap='square' stroke-linejoin='miter'><path d='M12 2v20M5 8h14'/></svg>">
@@ -73,10 +73,10 @@
             </div>
 
             <h1 class="text-base sm:text-lg font-extralight tracking-[0.25em] text-white uppercase mb-0.5">
-                Noche de Adoración Nocturna
+                Adoración Nocturna
             </h1>
             <p class="text-[10px] font-medium tracking-[0.3em] text-gold uppercase mb-3">
-                Parroquia SMSTA
+                Vigilia de Todos los Santos
             </p>
 
             <div class="border-t border-b border-white/15 py-2 my-2 px-2">
@@ -540,7 +540,7 @@
             document.getElementById('btnAddToCalendar').href = gcalUrl;
 
             // WhatsApp Link
-            const textWA = encodeURIComponent(`Hola, me he apuntado al turno de ${shift.time} (${shift.dateLabel}) para la Noche de Adoración Nocturna en la Cripta de la Parroquia SMSTA.`);
+            const textWA = encodeURIComponent(`Hola, me he apuntado al turno de ${shift.time} (${shift.dateLabel}) para la Adoración Nocturna en la Cripta de la Parroquia SMSTA.`);
             document.getElementById('btnShareWhatsapp').href = `https://wa.me/?text=${textWA}`;
 
             document.getElementById('successModal').classList.remove('hidden');
