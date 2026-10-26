@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adoración Nocturna | Parroquia</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts: Montserrat (Weights: 200, 300, 400, 500) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gold: '#BC9748',
+                        black: '#000000',
+                        white: '#FFFFFF',
+                    },
+                    fontFamily: {
+                        sans: ['"Montserrat"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* RESTRICCIÓN GEOMÉTRICA Y ESTILO SOBRIO */
+        * {
+            border-radius: 0px !important;
+            font-family: 'Montserrat', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: #FFFFFF;
+            color: #000000;
+            font-weight: 300;
+        }
+
+        /* Scrollbar Minimalista */
+        ::-webkit-scrollbar {
+            width: 3px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FFFFFF;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #BC9748;
+        }
+
+        .border-gold-faint {
+            border-color: rgba(188, 151, 72, 0.3);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-gold selection:text-white">
+
+    <!-- ENCABEZADO GEOMÉTRICO -->
+    <header class="bg-black text-white pt-8 pb-7 px-4 border-b-2 border-gold text-center relative">
+        <div class="max-w-md mx-auto">
+            
+            <!-- Cruz geométrica fina -->
+            <div class="inline-flex items-center justify-center w-10 h-10 border border-gold mb-3 text-gold">
+                <i data-lucide="cross" class="w-5 h-5 stroke-[1.25]"></i>
+            </div>
+
+            <h1 class="text-lg sm:text-xl font-extralight tracking-[0.25em] text-white uppercase mb-1">
+                Adoración Nocturna
+            </h1>
+            <p class="text-[10px] font-medium tracking-[0.3em] text-gold uppercase mb-4">
+                Vigilia de Todos los Santos
+            </p>
+
+            <div class="border-t border-b border-white/10 py-2.5 my-3 px-2">
+                <p class="text-xs font-extralight tracking-widest text-slate-300 italic">
+                    «¿No habéis podido velar conmigo una hora?»
+                </p>
+                <span class="text-[9px] text-gold font-light tracking-widest uppercase block mt-1">— Mt 26, 40</span>
+            </div>
+
+            <!-- Detalles del evento -->
+            <div class="flex items-center justify-center gap-3 text-[9px] font-light tracking-widest text-slate-300 uppercase">
+                <span>31 OCT — 01 NOV</span>
+                <span class="text-gold">•</span>
+                <span>21:00H — 10:00H</span>
+                <span class="text-gold">•</span>
+                <span>CAPILLA</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="max-w-md mx-auto w-full px-3 pt-4 flex-grow">
+        
+        <!-- RESUMEN Y LEYENDA GEOMÉTRICA -->
+        <div class="border border-black p-3 mb-3 bg-white">
+            <div class="flex items-center justify-between text-[10px] tracking-wider uppercase font-light text-black mb-2.5">
+                <span class="font-normal border-b border-gold pb-0.5">Ocupación:</span>
+                <div class="flex items-center gap-3">
+                    <div class="flex items-center gap-1" title="Vacío (Necesita adorador)">
+                        <span class="w-2.5 h-2.5 border border-black bg-white inline-block"></span>
+                        <span class="font-normal text-black text-[9px]">0</span>
+                    </div>
+                    <div class="flex items-center gap-1" title="1 Persona (Requiere acompañante)">
+                        <span class="w-2.5 h-2.5 bg-gold inline-block"></span>
+                        <span class="font-normal text-black text-[9px]">1</span>
+                    </div>
+                    <div class="flex items-center gap-1" title="2+ Personas (Cubierto)">
+                        <span class="w-2.5 h-2.5 bg-black inline-block"></span>
+                        <span class="font-normal text-black text-[9px]">2+</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filtros Ultra-compactos -->
+            <div class="grid grid-cols-2 gap-2 text-[10px] tracking-widest uppercase">
+                <button id="filterAllBtn" onclick="setFilter('all')" class="py-1.5 border border-black bg-black text-white font-normal transition-all">
+                    Todos los Turnos (<span id="countAll">13</span>)
+                </button>
+                <button id="filterNeedBtn" onclick="setFilter('need')" class="py-1.5 border border-black bg-white text-black font-light hover:bg-gold hover:text-white hover:border-gold transition-all">
+                    Incompletos (<span id="countNeed">0</span>)
+                </button>
+            </div>
+        </div>
+
+        <!-- LISTA ULTRA-COMPACTA DE TURNOS -->
+        <div id="shiftsContainer" class="space-y-1.5">
+            <!-- Carga dinámica -->
+        </div>
+
+    </main>
+
+    <!-- PIE DE PÁGINA -->
+    <footer class="mt-8 text-center py-6 border-t border-black/10 text-[10px] font-light tracking-widest text-black/60">
+        <p class="mb-3 uppercase">Parroquia • Adoración Nocturna 2026</p>
+        <button onclick="checkOrOpenAdminModal()" class="inline-flex items-center gap-2 text-black hover:text-gold uppercase font-light border border-black px-3 py-1.5 transition-colors">
+            <i data-lucide="shield" class="w-3 h-3 text-gold"></i>
+            <span>Acceso Coordinación</span>
+        </button>
+    </footer>
+
+    <!-- MODAL 1: REGISTRO DE ADORADOR -->
+    <div id="signupModal" class="fixed inset-0 bg-black/80 backdrop-blur-xs flex items-center justify-center p-3 z-50 hidden">
+        <div class="bg-white border-2 border-black w-full max-w-sm p-5 shadow-2xl relative">
+            
+            <button onclick="closeSignupModal()" class="absolute top-3 right-3 text-black hover:text-gold p-1">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+
+            <div class="mb-4 border-b border-black/10 pb-3">
+                <span class="text-[9px] font-normal tracking-[0.2em] text-gold uppercase block mb-0.5">
+                    Reserva de Hora
+                </span>
+                <h3 id="modalShiftTime" class="text-sm font-normal tracking-wider text-black uppercase">Turno --</h3>
+            </div>
+
+            <form id="signupForm" onsubmit="handleSignupSubmit(event)" class="space-y-3 text-xs">
+                <input type="hidden" id="selectedShiftId">
+
+                <div>
+                    <label class="block text-[10px] tracking-widest uppercase font-normal text-black mb-1">Nombre y Apellidos *</label>
+                    <input type="text" id="userName" required placeholder="Ej. Juan Pérez" class="w-full bg-white border border-black px-3 py-2 text-xs font-light text-black placeholder-slate-400 focus:outline-none focus:border-gold">
+                </div>
+
+                <div>
+                    <label class="block text-[10px] tracking-widest uppercase font-normal text-black mb-1">Teléfono Móvil *</label>
+                    <input type="tel" id="userPhone" required placeholder="Ej. 612345678" class="w-full bg-white border border-black px-3 py-2 text-xs font-light text-black placeholder-slate-400 focus:outline-none focus:border-gold">
+                </div>
+
+                <div>
+                    <label class="block text-[10px] tracking-widest uppercase font-normal text-black mb-1">Correo Electrónico *</label>
+                    <input type="email" id="userEmail" required placeholder="Ej. juan@ejemplo.com" class="w-full bg-white border border-black px-3 py-2 text-xs font-light text-black placeholder-slate-400 focus:outline-none focus:border-gold">
+                    <p class="text-[9px] font-light text-black/50 mt-0.5">Para recordatorios del turno.</p>
+                </div>
+
+                <div class="flex items-start gap-2 pt-1">
+                    <input type="checkbox" id="userPrivacy" required class="mt-0.5 border-black text-black focus:ring-0">
+                    <label for="userPrivacy" class="text-[9px] font-light text-black/70 leading-tight">
+                        Acepto asistir puntualmente a mi turno de oración.
+                    </label>
+                </div>
+
+                <div class="pt-2 flex gap-2">
+                    <button type="button" onclick="closeSignupModal()" class="w-1/3 py-2.5 border border-black text-black text-[10px] tracking-widest uppercase font-light hover:bg-black/5 transition-colors">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="w-2/3 py-2.5 bg-black text-white text-[10px] tracking-widest uppercase font-normal hover:bg-gold transition-colors flex items-center justify-center gap-2">
+                        <span>Confirmar Turno</span>
+                        <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-gold"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 2: CONFIRMACIÓN Y CALENDARIO -->
+    <div id="successModal" class="fixed inset-0 bg-black/85 backdrop-blur-xs flex items-center justify-center p-3 z-50 hidden">
+        <div class="bg-white border-2 border-gold w-full max-w-sm p-5 text-center shadow-2xl relative">
+            
+            <div class="w-10 h-10 border border-gold text-gold flex items-center justify-center mx-auto mb-3">
+                <i data-lucide="check" class="w-5 h-5 stroke-[1.5]"></i>
+            </div>
+
+            <h3 class="text-sm font-normal tracking-widest text-black uppercase mb-1">Inscripción Confirmada</h3>
+            <p class="text-[10px] font-light text-black/60 uppercase tracking-wider mb-4">Tu hora de velación ha sido registrada</p>
+
+            <div class="border border-black p-3 mb-4 text-left text-xs space-y-1.5 font-light">
+                <div class="flex justify-between border-b border-black/10 pb-1">
+                    <span class="text-black/60 uppercase text-[9px] tracking-widest">Turno:</span>
+                    <span id="confirmShiftTime" class="font-normal text-black">--</span>
+                </div>
+                <div class="flex justify-between border-b border-black/10 pb-1">
+                    <span class="text-black/60 uppercase text-[9px] tracking-widest">Nombre:</span>
+                    <span id="confirmName" class="font-normal text-black">--</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-black/60 uppercase text-[9px] tracking-widest">Lugar:</span>
+                    <span class="font-normal text-black">Capilla Parroquial</span>
+                </div>
+            </div>
+
+            <!-- Botones de Acción -->
+            <div class="space-y-2 text-[10px] tracking-widest uppercase font-light">
+                <a id="btnAddToCalendar" target="_blank" class="w-full py-2.5 border border-black hover:border-gold hover:text-gold text-black flex items-center justify-center gap-2 transition-colors">
+                    <i data-lucide="calendar" class="w-3.5 h-3.5 text-gold"></i>
+                    <span>Añadir a Google Calendar</span>
+                </a>
+
+                <a id="btnShareWhatsapp" target="_blank" class="w-full py-2.5 border border-black hover:border-gold hover:text-gold text-black flex items-center justify-center gap-2 transition-colors">
+                    <i data-lucide="message-circle" class="w-3.5 h-3.5 text-gold"></i>
+                    <span>Compartir por WhatsApp</span>
+                </a>
+
+                <button onclick="closeSuccessModal()" class="w-full py-2.5 bg-black text-white hover:bg-gold transition-colors mt-1 font-normal">
+                    Finalizar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 3: INICIO DE SESIÓN DE COORDINADORES -->
+    <div id="adminAuthModal" class="fixed inset-0 bg-black/80 backdrop-blur-xs flex items-center justify-center p-3 z-50 hidden">
+        <div class="bg-white border-2 border-black w-full max-w-sm p-5 shadow-2xl relative">
+            <button onclick="closeAdminAuthModal()" class="absolute top-3 right-3 text-black hover:text-gold">
+                <i data-lucide="x" class="w-4 h-4"></i>
+            </button>
+            <div class="w-9 h-9 border border-gold text-gold flex items-center justify-center mx-auto mb-2">
+                <i data-lucide="shield" class="w-4 h-4"></i>
+            </div>
+            <h3 class="text-xs font-normal tracking-widest text-black uppercase mb-1 text-center">Acceso Coordinadores</h3>
+            <p class="text-[9px] font-light text-black/60 mb-4 uppercase text-center">Acceso exclusivo para miembros autorizados</p>
+            
+            <form onsubmit="handleAdminAuth(event)" class="space-y-2.5 text-xs">
+                <div>
+                    <label class="block text-[9px] tracking-widest uppercase font-normal text-black mb-1">Correo Electrónico Autorizado</label>
+                    <input type="email" id="adminEmail" required placeholder="correo@autorizado.com" class="w-full bg-white border border-black px-3 py-2 text-xs text-black focus:outline-none focus:border-gold">
+                </div>
+                <div>
+                    <label class="block text-[9px] tracking-widest uppercase font-normal text-black mb-1">Contraseña</label>
+                    <input type="password" id="adminPassword" required placeholder="••••••••" class="w-full bg-white border border-black px-3 py-2 text-xs text-black focus:outline-none focus:border-gold">
+                </div>
+
+                <div class="flex items-center gap-2 pt-1">
+                    <input type="checkbox" id="rememberAdmin" class="border-black text-black focus:ring-0">
+                    <label for="rememberAdmin" class="text-[9px] font-light text-black/70">Mantener sesión iniciada</label>
+                </div>
+
+                <p id="adminAuthError" class="text-gold text-[9px] font-normal uppercase text-center hidden">Credenciales de coordinador no autorizadas</p>
+
+                <button type="submit" class="w-full py-2.5 bg-black text-white font-normal text-[10px] tracking-widest uppercase hover:bg-gold transition-colors mt-2">
+                    Iniciar Sesión
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 4: PANEL DE COORDINACIÓN COMPLETO -->
+    <div id="adminPanelModal" class="fixed inset-0 bg-black/90 backdrop-blur-xs flex items-center justify-center p-2 sm:p-4 z-50 hidden">
+        <div class="bg-white border-2 border-black w-full max-w-2xl p-4 sm:p-5 shadow-2xl my-auto max-h-[92vh] flex flex-col">
+            
+            <!-- Admin Header -->
+            <div class="flex items-center justify-between border-b border-black pb-3 mb-3">
+                <div>
+                    <h2 class="text-xs sm:text-sm font-normal tracking-widest text-black uppercase flex items-center gap-2">
+                        <i data-lucide="shield-check" class="w-4 h-4 text-gold"></i>
+                        <span>Panel de Coordinación</span>
+                    </h2>
+                    <p id="adminUserBadge" class="text-[9px] font-light text-black/60 uppercase">Sesión: --</p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="logoutAdmin()" title="Cerrar Sesión" class="p-1 border border-black hover:bg-gold hover:text-white hover:border-gold transition-colors">
+                        <i data-lucide="log-out" class="w-4 h-4"></i>
+                    </button>
+                    <button onclick="closeAdminPanel()" class="p-1 border border-black hover:bg-black hover:text-white transition-colors">
+                        <i data-lucide="x" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Resumen Estadístico -->
+            <div class="grid grid-cols-3 gap-2 mb-3 text-center">
+                <div class="border border-black p-2">
+                    <span class="text-[8px] font-light text-black/60 uppercase block">Total Adoradores</span>
+                    <span id="statTotalUsers" class="text-sm sm:text-base font-normal text-black">0</span>
+                </div>
+                <div class="border border-black p-2">
+                    <span class="text-[8px] font-light text-black/60 uppercase block">Cubiertos (&ge;2)</span>
+                    <span id="statCoveredShifts" class="text-sm sm:text-base font-normal text-gold">0/13</span>
+                </div>
+                <div class="border border-black p-2">
+                    <span class="text-[8px] font-light text-black/60 uppercase block">Incompletos (&lt;2)</span>
+                    <span id="statAlertShifts" class="text-sm sm:text-base font-normal text-black">13</span>
+                </div>
+            </div>
+
+            <!-- Acciones de Gestión -->
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-3 text-[9px] tracking-widest uppercase">
+                <div class="flex gap-1.5">
+                    <button onclick="exportToCSV()" class="py-1.5 px-2.5 border border-black hover:bg-black hover:text-white transition-colors font-light flex items-center gap-1">
+                        <i data-lucide="download" class="w-3 h-3 text-gold"></i>
+                        <span>CSV</span>
+                    </button>
+                    <button onclick="copySummaryWhatsApp()" class="py-1.5 px-2.5 border border-black hover:bg-black hover:text-white transition-colors font-light flex items-center gap-1">
+                        <i data-lucide="copy" class="w-3 h-3 text-gold"></i>
+                        <span>Resumen WA</span>
+                    </button>
+                </div>
+
+                <div class="flex gap-1.5">
+                    <button onclick="openManualAddModal()" class="py-1.5 px-2.5 border border-gold bg-gold text-white font-normal hover:bg-black hover:border-black transition-colors flex items-center gap-1">
+                        <i data-lucide="user-plus" class="w-3 h-3"></i>
+                        <span>Añadir Manual</span>
+                    </button>
+                    <button onclick="promptResetDatabase()" class="py-1.5 px-2 border border-black text-black hover:bg-black hover:text-white transition-colors font-light" title="Vaciar Base de Datos">
+                        <i data-lucide="rotate-ccw" class="w-3 h-3 text-gold"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Lista de Turnos e Inscritos -->
+            <div id="adminShiftsList" class="space-y-2 overflow-y-auto pr-1 flex-grow">
+                <!-- Generado por JS -->
+            </div>
+
+        </div>
+    </div>
+
+    <!-- MODAL 5: AÑADIR ADORADOR MANUAL -->
+    <div id="manualAddModal" class="fixed inset-0 bg-black/85 backdrop-blur-xs flex items-center justify-center p-3 z-[60] hidden">
+        <div class="bg-white border-2 border-black w-full max-w-sm p-5 shadow-2xl relative">
+            <button onclick="closeManualAddModal()" class="absolute top-3 right-3 text-black hover:text-gold">
+                <i data-lucide="x" class="w-4 h-4"></i>
+            </button>
+            <h3 class="text-xs font-normal tracking-widest text-black uppercase mb-3 border-b border-black/10 pb-2">Añadir Adorador Manual</h3>
+
+            <form onsubmit="handleManualAddSubmit(event)" class="space-y-2.5 text-xs">
+                <div>
+                    <label class="block text-[9px] tracking-widest uppercase font-normal text-black mb-1">Seleccionar Turno</label>
+                    <select id="manualShiftSelect" class="w-full bg-white border border-black px-2.5 py-1.5 text-xs text-black focus:outline-none focus:border-gold">
+                        <!-- Opciones por JS -->
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-[9px] tracking-widest uppercase font-normal text-black mb-1">Nombre y Apellidos *</label>
+                    <input type="text" id="manualName" required placeholder="Nombre completo" class="w-full bg-white border border-black px-2.5 py-1.5 text-xs text-black focus:outline-none focus:border-gold">
+                </div>
+                <div>
+                    <label class="block text-[9px] tracking-widest uppercase font-normal text-black mb-1">Teléfono</label>
+                    <input type="tel" id="manualPhone" placeholder="Opcional" class="w-full bg-white border border-black px-2.5 py-1.5 text-xs text-black focus:outline-none focus:border-gold">
+                </div>
+                <div>
+                    <label class="block text-[9px] tracking-widest uppercase font-normal text-black mb-1">Correo Electrónico</label>
+                    <input type="email" id="manualEmail" placeholder="Opcional" class="w-full bg-white border border-black px-2.5 py-1.5 text-xs text-black focus:outline-none focus:border-gold">
+                </div>
+                <button type="submit" class="w-full py-2 bg-black text-white text-[10px] tracking-widest uppercase font-normal hover:bg-gold transition-colors mt-2">
+                    Guardar Registro
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // CORREOS AUTORIZADOS Y CLAVE
+        const AUTHORIZED_COORDINATORS = [
+            "ffoscar7@gmail.com",
+            "guadalupeluciarussorodriguez@gmail.com"
+        ];
+        const COORDINATOR_PASS = "Adoracion2026";
+
+        // CONFIGURACIÓN DE TURNOS OFICIALES
+        const SHIFTS = [
+            { id: 1, time: "21:00 - 22:00", dateLabel: "31 OCT", isoStart: "20261031T210000", isoEnd: "20261031T220000" },
+            { id: 2, time: "22:00 - 23:00", dateLabel: "31 OCT", isoStart: "20261031T220000", isoEnd: "20261031T230000" },
+            { id: 3, time: "23:00 - 00:00", dateLabel: "31 OCT", isoStart: "20261031T230000", isoEnd: "20261101T000000" },
+            { id: 4, time: "00:00 - 01:00", dateLabel: "01 NOV", isoStart: "20261101T000000", isoEnd: "20261101T010000" },
+            { id: 5, time: "01:00 - 02:00", dateLabel: "01 NOV", isoStart: "20261101T010000", isoEnd: "20261101T020000" },
+            { id: 6, time: "02:00 - 03:00", dateLabel: "01 NOV", isoStart: "20261101T020000", isoEnd: "20261101T030000" },
+            { id: 7, time: "03:00 - 04:00", dateLabel: "01 NOV", isoStart: "20261101T030000", isoEnd: "20261101T040000" },
+            { id: 8, time: "04:00 - 05:00", dateLabel: "01 NOV", isoStart: "20261101T040000", isoEnd: "20261101T050000" },
+            { id: 9, time: "05:00 - 06:00", dateLabel: "01 NOV", isoStart: "20261101T050000", isoEnd: "20261101T060000" },
+            { id: 10, time: "06:00 - 07:00", dateLabel: "01 NOV", isoStart: "20261101T060000", isoEnd: "20261101T070000" },
+            { id: 11, time: "07:00 - 08:00", dateLabel: "01 NOV", isoStart: "20261101T070000", isoEnd: "20261101T080000" },
+            { id: 12, time: "08:00 - 09:00", dateLabel: "01 NOV", isoStart: "20261101T080000", isoEnd: "20261101T090000" },
+            { id: 13, time: "09:00 - 10:00", dateLabel: "01 NOV", isoStart: "20261101T090000", isoEnd: "20261101T100000" }
+        ];
+
+        // ESTADO GLOBAL
+        let registrations = [];
+        let currentFilter = 'all';
+        let loggedAdminEmail = null;
+
+        window.onload = function() {
+            loadData();
+            checkSavedAdminSession();
+            renderShifts();
+            lucide.createIcons();
+        };
+
+        function loadData() {
+            const savedData = localStorage.getItem('adoracion_prod_registrations');
+            if (savedData) {
+                try {
+                    registrations = JSON.parse(savedData);
+                } catch(e) {
+                    registrations = [];
+                }
+            } else {
+                registrations = [];
+                saveData();
+            }
+        }
+
+        function saveData() {
+            localStorage.setItem('adoracion_prod_registrations', JSON.stringify(registrations));
+        }
+
+        function setFilter(filter) {
+            currentFilter = filter;
+            const btnAll = document.getElementById('filterAllBtn');
+            const btnNeed = document.getElementById('filterNeedBtn');
+
+            if (filter === 'all') {
+                btnAll.className = "py-1.5 border border-black bg-black text-white font-normal transition-all";
+                btnNeed.className = "py-1.5 border border-black bg-white text-black font-light hover:bg-gold hover:text-white hover:border-gold transition-all";
+            } else {
+                btnNeed.className = "py-1.5 border border-black bg-black text-white font-normal transition-all";
+                btnAll.className = "py-1.5 border border-black bg-white text-black font-light hover:bg-gold hover:text-white hover:border-gold transition-all";
+            }
+            renderShifts();
+        }
+
+        // RENDER DE TURNOS
+        function renderShifts() {
+            const container = document.getElementById('shiftsContainer');
+            container.innerHTML = '';
+
+            let needyCount = 0;
+
+            SHIFTS.forEach(shift => {
+                const shiftRegs = registrations.filter(r => r.shiftId === shift.id);
+                const count = shiftRegs.length;
+                const needsMore = count < 2;
+
+                if (needsMore) needyCount++;
+
+                if (currentFilter === 'need' && !needsMore) {
+                    return;
+                }
+
+                // Indicador geométrico minimalista (0 = Contorno Blanco, 1 = Dorado, 2+ = Negro)
+                let statusBoxHtml = '';
+                if (count === 0) {
+                    statusBoxHtml = `<span class="w-5 h-5 border border-black bg-white text-black flex items-center justify-center font-normal text-[10px]" title="Sin adoradores">0</span>`;
+                } else if (count === 1) {
+                    statusBoxHtml = `<span class="w-5 h-5 bg-gold text-white flex items-center justify-center font-normal text-[10px]" title="1 adorador">1</span>`;
+                } else {
+                    statusBoxHtml = `<span class="w-5 h-5 bg-black text-white flex items-center justify-center font-normal text-[10px]" title="${count} adoradores">${count}</span>`;
+                }
+
+                const card = document.createElement('div');
+                card.className = "border border-black p-2 flex items-center justify-between bg-white hover:border-gold transition-all";
+
+                card.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        ${statusBoxHtml}
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-xs font-normal tracking-widest text-black">${shift.time}</span>
+                                <span class="text-[9px] font-light text-black/50 border-l border-black/20 pl-2 uppercase">${shift.dateLabel}</span>
+                            </div>
+                            <span class="text-[9px] font-light text-black/60 uppercase tracking-wider block">
+                                ${count === 0 ? 'Disponible' : (count === 1 ? '1 adorador registrado' : count + ' adoradores')}
+                            </span>
+                        </div>
+                    </div>
+
+                    <button onclick="openSignupModal(${shift.id})" class="py-1 px-3 border border-black bg-white text-black font-light text-[10px] tracking-widest uppercase hover:bg-black hover:text-white transition-colors flex items-center gap-1">
+                        <span>Anotarme</span>
+                        <i data-lucide="chevron-right" class="w-3 h-3 text-gold"></i>
+                    </button>
+                `;
+
+                container.appendChild(card);
+            });
+
+            document.getElementById('countAll').innerText = SHIFTS.length;
+            document.getElementById('countNeed').innerText = needyCount;
+
+            if (container.children.length === 0 && currentFilter === 'need') {
+                container.innerHTML = `
+                    <div class="text-center py-8 border border-black bg-white p-4">
+                        <i data-lucide="check" class="w-6 h-6 text-gold mx-auto mb-2"></i>
+                        <p class="text-xs font-normal tracking-widest text-black uppercase">Todos los turnos tienen al menos 2 adoradores</p>
+                        <p class="text-[9px] font-light text-black/60 mt-1 uppercase">Aún puedes inscribirte en el turno que desees</p>
+                    </div>
+                `;
+            }
+
+            lucide.createIcons();
+        }
+
+        // SIGNUP MODAL
+        function openSignupModal(shiftId) {
+            const shift = SHIFTS.find(s => s.id === shiftId);
+            if (!shift) return;
+
+            document.getElementById('selectedShiftId').value = shift.id;
+            document.getElementById('modalShiftTime').innerText = `Turno ${shift.time} (${shift.dateLabel})`;
+            
+            document.getElementById('signupModal').classList.remove('hidden');
+        }
+
+        function closeSignupModal() {
+            document.getElementById('signupModal').classList.add('hidden');
+            document.getElementById('signupForm').reset();
+        }
+
+        function handleSignupSubmit(e) {
+            e.preventDefault();
+            const shiftId = parseInt(document.getElementById('selectedShiftId').value);
+            const name = document.getElementById('userName').value.trim();
+            const phone = document.getElementById('userPhone').value.trim();
+            const email = document.getElementById('userEmail').value.trim();
+
+            if (!name || !phone || !email) return;
+
+            const newReg = {
+                id: Date.now().toString(),
+                shiftId,
+                name,
+                phone,
+                email,
+                registeredAt: new Date().toISOString()
+            };
+
+            registrations.push(newReg);
+            saveData();
+            renderShifts();
+            closeSignupModal();
+
+            const shift = SHIFTS.find(s => s.id === shiftId);
+            showSuccessModal(shift, name);
+        }
+
+        // SUCCESS MODAL & EXTERNAL ACTIONS
+        function showSuccessModal(shift, name) {
+            document.getElementById('confirmShiftTime').innerText = `${shift.time} (${shift.dateLabel})`;
+            document.getElementById('confirmName').innerText = name;
+
+            // Enlace a Google Calendar
+            const title = encodeURIComponent("Turno Adoración Nocturna - Parroquia");
+            const details = encodeURIComponent(`Turno de Oración de ${name}. Capilla Parroquial.`);
+            const location = encodeURIComponent("Capilla Parroquial");
+            const gcalUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${shift.isoStart}/${shift.isoEnd}&details=${details}&location=${location}`;
+            document.getElementById('btnAddToCalendar').href = gcalUrl;
+
+            // Enlace a WhatsApp
+            const textWA = encodeURIComponent(`Me he registrado para velar una hora en la Adoración Nocturna de la Parroquia. Mi turno es ${shift.time} (${shift.dateLabel}). ¿Te sumas tú también?`);
+            document.getElementById('btnShareWhatsapp').href = `https://wa.me/?text=${textWA}`;
+
+            document.getElementById('successModal').classList.remove('hidden');
+        }
+
+        function closeSuccessModal() {
+            document.getElementById('successModal').classList.add('hidden');
+        }
+
+        // AUTENTICACIÓN Y SESIÓN DE COORDINACIÓN
+        function checkSavedAdminSession() {
+            const savedEmail = localStorage.getItem('adoracion_logged_admin');
+            if (savedEmail && AUTHORIZED_COORDINATORS.includes(savedEmail)) {
+                loggedAdminEmail = savedEmail;
+            }
+        }
+
+        function checkOrOpenAdminModal() {
+            if (loggedAdminEmail) {
+                openAdminPanel();
+            } else {
+                openAdminAuthModal();
+            }
+        }
+
+        function openAdminAuthModal() {
+            document.getElementById('adminEmail').value = '';
+            document.getElementById('adminPassword').value = '';
+            document.getElementById('adminAuthError').classList.add('hidden');
+            document.getElementById('adminAuthModal').classList.remove('hidden');
+        }
+
+        function closeAdminAuthModal() {
+            document.getElementById('adminAuthModal').classList.add('hidden');
+        }
+
+        function handleAdminAuth(e) {
+            e.preventDefault();
+            const email = document.getElementById('adminEmail').value.trim().toLowerCase();
+            const pass = document.getElementById('adminPassword').value;
+            const remember = document.getElementById('rememberAdmin').checked;
+
+            if (AUTHORIZED_COORDINATORS.includes(email) && pass === COORDINATOR_PASS) {
+                loggedAdminEmail = email;
+                if (remember) {
+                    localStorage.setItem('adoracion_logged_admin', email);
+                }
+                closeAdminAuthModal();
+                openAdminPanel();
+            } else {
+                document.getElementById('adminAuthError').classList.remove('hidden');
+            }
+        }
+
+        function logoutAdmin() {
+            loggedAdminEmail = null;
+            localStorage.removeItem('adoracion_logged_admin');
+            closeAdminPanel();
+        }
+
+        // PANEL DE COORDINACIÓN
+        function openAdminPanel() {
+            if (!loggedAdminEmail) {
+                openAdminAuthModal();
+                return;
+            }
+            document.getElementById('adminUserBadge').innerText = `Coordinación: ${loggedAdminEmail}`;
+            renderAdminView();
+            document.getElementById('adminPanelModal').classList.remove('hidden');
+        }
+
+        function closeAdminPanel() {
+            document.getElementById('adminPanelModal').classList.add('hidden');
+        }
+
+        function renderAdminView() {
+            const totalAdorers = registrations.length;
+            let covered = 0;
+            let alertCount = 0;
+
+            SHIFTS.forEach(shift => {
+                const count = registrations.filter(r => r.shiftId === shift.id).length;
+                if (count >= 2) covered++;
+                else alertCount++;
+            });
+
+            document.getElementById('statTotalUsers').innerText = totalAdorers;
+            document.getElementById('statCoveredShifts').innerText = `${covered}/13`;
+            document.getElementById('statAlertShifts').innerText = alertCount;
+
+            const listContainer = document.getElementById('adminShiftsList');
+            listContainer.innerHTML = '';
+
+            SHIFTS.forEach(shift => {
+                const shiftRegs = registrations.filter(r => r.shiftId === shift.id);
+                const count = shiftRegs.length;
+
+                const shiftBlock = document.createElement('div');
+                shiftBlock.className = 'border border-black bg-white';
+
+                let peopleHtml = '';
+                if (count === 0) {
+                    peopleHtml = `<p class="text-[10px] font-light text-black/40 italic p-2 uppercase">Sin adoradores registrados en este turno</p>`;
+                } else {
+                    peopleHtml = shiftRegs.map(reg => `
+                        <div class="flex items-center justify-between p-2 border-b border-black/10 last:border-b-0 hover:bg-black/5 text-xs">
+                            <div>
+                                <p class="font-normal text-black text-xs">${escapeHtml(reg.name)}</p>
+                                <p class="text-[9px] font-light text-black/60">${escapeHtml(reg.phone || 'Sin Teléfono')} • ${escapeHtml(reg.email || 'Sin Email')}</p>
+                            </div>
+                            <div class="flex items-center gap-1">
+                                ${reg.phone && reg.phone !== '-' ? `
+                                    <a href="tel:${reg.phone}" title="Llamar" class="p-1 border border-black hover:bg-gold hover:border-gold hover:text-white transition-colors">
+                                        <i data-lucide="phone" class="w-3 h-3"></i>
+                                    </a>
+                                    <a href="https://wa.me/${reg.phone.replace(/\s+/g, '')}" target="_blank" title="WhatsApp" class="p-1 border border-black hover:bg-black hover:text-white transition-colors">
+                                        <i data-lucide="message-square" class="w-3 h-3"></i>
+                                    </a>
+                                ` : ''}
+                                <button onclick="deleteRegistration('${reg.id}')" title="Borrar" class="p-1 border border-black hover:bg-black hover:text-white transition-colors">
+                                    <i data-lucide="trash-2" class="w-3 h-3 text-gold"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+
+                shiftBlock.innerHTML = `
+                    <div class="flex items-center justify-between p-2 bg-black text-white text-xs">
+                        <div class="flex items-center gap-2">
+                            <span class="font-normal tracking-widest text-[11px]">${shift.time}</span>
+                            <span class="text-[9px] text-gold uppercase font-light">(${shift.dateLabel})</span>
+                        </div>
+                        <span class="text-[9px] uppercase tracking-wider font-light border border-gold/50 px-1.5 py-0.5">
+                            ${count} ${count === 1 ? 'adorador' : 'adoradores'}
+                        </span>
+                    </div>
+                    <div class="divide-y divide-black/10">
+                        ${peopleHtml}
+                    </div>
+                `;
+
+                listContainer.appendChild(shiftBlock);
+            });
+
+            lucide.createIcons();
+        }
+
+        function deleteRegistration(id) {
+            registrations = registrations.filter(r => r.id !== id);
+            saveData();
+            renderShifts();
+            renderAdminView();
+        }
+
+        // AÑADIR ADORADOR MANUAL
+        function openManualAddModal() {
+            const select = document.getElementById('manualShiftSelect');
+            select.innerHTML = SHIFTS.map(s => `
+                <option value="${s.id}">${s.time} - ${s.dateLabel}</option>
+            `).join('');
+
+            document.getElementById('manualName').value = '';
+            document.getElementById('manualPhone').value = '';
+            document.getElementById('manualEmail').value = '';
+
+            document.getElementById('manualAddModal').classList.remove('hidden');
+        }
+
+        function closeManualAddModal() {
+            document.getElementById('manualAddModal').classList.add('hidden');
+        }
+
+        function handleManualAddSubmit(e) {
+            e.preventDefault();
+            const shiftId = parseInt(document.getElementById('manualShiftSelect').value);
+            const name = document.getElementById('manualName').value.trim();
+            const phone = document.getElementById('manualPhone').value.trim();
+            const email = document.getElementById('manualEmail').value.trim();
+
+            if (!name) return;
+
+            const newReg = {
+                id: Date.now().toString(),
+                shiftId,
+                name,
+                phone: phone || '-',
+                email: email || '-',
+                registeredAt: new Date().toISOString()
+            };
+
+            registrations.push(newReg);
+            saveData();
+            renderShifts();
+            renderAdminView();
+            closeManualAddModal();
+        }
+
+        // COPIAR RESUMEN PARA WHATSAPP
+        function copySummaryWhatsApp() {
+            let summary = `*RESUMEN ADORACIÓN NOCTURNA*\n_Parroquia (31 Oct - 01 Nov)_\n\n`;
+            
+            SHIFTS.forEach(shift => {
+                const regs = registrations.filter(r => r.shiftId === shift.id);
+                const count = regs.length;
+                let statusIcon = count === 0 ? '❌ 0' : (count === 1 ? '⚠️ 1' : '✅ ' + count);
+                summary += `*${shift.time}* (${shift.dateLabel}): ${statusIcon}\n`;
+                regs.forEach(r => {
+                    summary += `   • ${r.name}\n`;
+                });
+            });
+
+            summary += `\nTotal Adoradores: ${registrations.length}`;
+
+            // Copiar al portapapeles
+            const el = document.createElement('textarea');
+            el.value = summary;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+
+            alert("Resumen formateado copiado al portapapeles. Ya puedes pegarlo en WhatsApp.");
+        }
+
+        // EXPORTAR CSV
+        function exportToCSV() {
+            if (registrations.length === 0) {
+                alert("No hay inscripciones registradas actualmente.");
+                return;
+            }
+
+            let csvContent = "data:text/csv;charset=utf-8,ID Turno,Hora Turno,Dia,Nombre,Telefono,Email,Fecha Registro\n";
+
+            registrations.forEach(reg => {
+                const shift = SHIFTS.find(s => s.id === reg.shiftId);
+                const shiftTime = shift ? shift.time : '';
+                const shiftDate = shift ? shift.dateLabel : '';
+
+                const row = [
+                    reg.shiftId,
+                    `"${shiftTime}"`,
+                    `"${shiftDate}"`,
+                    `"${reg.name}"`,
+                    `"${reg.phone}"`,
+                    `"${reg.email}"`,
+                    `"${reg.registeredAt || ''}"`
+                ].join(",");
+
+                csvContent += row + "\n";
+            });
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `adoracion_nocturna_lista_oficial.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // REINICIAR BASE DE DATOS
+        function promptResetDatabase() {
+            const confirm1 = confirm("¿Estás seguro de que deseas VACIAR TODA la lista de adoradores?");
+            if (confirm1) {
+                const confirm2 = prompt("Escribe BORRAR para confirmar el vaciado completo:");
+                if (confirm2 === "BORRAR") {
+                    registrations = [];
+                    saveData();
+                    renderShifts();
+                    renderAdminView();
+                    alert("Base de datos reiniciada con éxito.");
+                }
+            }
+        }
+
+        function escapeHtml(str) {
+            return (str || '').replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+    </script>
+</body>
+</html>
